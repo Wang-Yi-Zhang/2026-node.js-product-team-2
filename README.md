@@ -134,11 +134,9 @@ image-optimizer/
 |---|---|---|
 | API / 路由 | Louis | `src/routes/` |
 | 檔案驗證 | Gianni | `src/middlewares/` |
-| 圖片處理 | Ting | `src/services/` |
+| 圖片處理 | Ting | `src/services/`、`src/utils/` |
 | 前台畫面 | Becca | `public/` |
 | README / Demo | A4 | `README.md`、`docs/` |
-
-各自資料夾邊界清楚，減少多人同時改同一支檔案造成的 merge 衝突；共用的型別/格式（例如回應 JSON 欄位）以本 README 為準。
 
 ---
 
