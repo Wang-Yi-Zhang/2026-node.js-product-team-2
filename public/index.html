@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圖片壓縮工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 全域外殼：用來控制整頁的置中與最大寬度 -->
+    <div class="compressor-container">
+    
+    <!-- 1. 頁首標誌區 -->
+    <header class="web-header">
+        <span class="logo-text">壓圖小工具</span>
+    </header>
+
+    <!-- 2. 主副標題文字區 -->
+    <section class="hero-section">
+        <h1 class="main-title">把圖片變小，一步到位</h1>
+        <p class="sub-title">上傳 → 設定 → 下載，全部在這一頁完成</p>
+    </section>
+
+    <!-- 3. 核心拖曳上傳卡片 (對應畫面中的大虛線框) -->
+    <div class="upload-zone" id="dropZone">
+        <!-- 真正負責接收檔案的 input，我們用 CSS 把它隱藏起來 -->
+        <input type="file" id="fileInput" accept=".jpg, .jpeg, .png, .webp" hidden />
+        
+        <!-- 圓形虛線加號圖標 -->
+        <div class="plus-icon-container">
+        <span class="plus-sign">+</span>
+        </div>
+        
+        <!-- 提示文字與點擊連結 -->
+        <p class="upload-prompt">把圖片拖進來</p>
+        
+        <!-- 使用 for 屬性綁定 fileInput 的 id，點擊這個 label 就等於點擊 input -->
+        <label for="fileInput" class="upload-label">
+        或 <span class="clickable-text">點擊選擇檔案</span>
+        </label>
+        
+        <!-- 支援格式與大小限制 -->
+        <p class="file-limits">支援 JPG · PNG · WebP | 單檔最大 5MB</p>
+    </div>
+
+    <!-- 4. 底部步驟導覽區 -->
+    <footer class="steps-navigation">
+        <div class="step-item">① 選圖</div>
+        <div class="step-item">② 設定品質（預設壓縮 80%）</div>
+        <div class="step-item">③ 下載</div>
+    </footer>
+
+    </div>
+
+    <script>
+    // 1. 拿放大鏡找到我們在 HTML 寫好的大框框 (對應 id="dropZone")
+    const dropZone = document.getElementById('dropZone');
+    // 同時找到那個被隱藏的真實輸入格 (對應 id="fileInput")
+    const fileInput = document.getElementById('fileInput');
+
+    // 2. 動作一：當使用者拿著檔案，「滑進」大框框的上方時
+    dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault(); // 【超級關鍵】阻止瀏覽器把圖片直接打開的預設行為！
+        
+        dropZone.classList.add('dragover'); // 幫大框框「穿上」我們在 CSS 準備好的 dragover 變色衣服
+    });
+
+    // 3. 動作二：當使用者拿著檔案，又「滑離開」大框框時
+    dropZone.addEventListener('dragleave', function() {
+        dropZone.classList.remove('dragover'); // 檔案走了，把變色衣服「脫掉」，恢復原狀
+    });
+
+    // 4. 動作三：當使用者在框框上方「放開滑鼠（丟下檔案）」時
+    dropZone.addEventListener('drop', function(e) {
+        e.preventDefault(); // 再次阻止瀏覽器直接打開圖片的行為
+        
+        dropZone.classList.remove('dragover'); // 檔案已經丟進來了，任務完成，把變色衣服「脫掉」
+
+        // 5. 抓取真正被丟進來的檔案
+        const files = e.dataTransfer.files; // 這行程式碼可以拿到使用者丟進來的所有檔案
+        
+        // 如果真的有拿到檔案（數量大於 0）
+        if (files.length > 0) {
+        const file = files[0]; // 拿到第一個檔案
+        
+        // 做個簡單檢查：確定他丟的是圖片，而不是奇怪的 word 檔或 pdf
+        if (file.type.startsWith('image/')) {
+            
+            // 魔法核心：把拖曳進來的檔案，塞給我們那個隱藏的 fileInput
+            fileInput.files = files;
+            
+            // 跳出一個提示，代表我們前端成功抓到檔案了！
+            alert(`成功抓到圖片：${file.name} \n可以準備進行壓縮囉！`);
+            
+            console.log('目前暫存的檔案物件為：', file);
+        } else {
+            alert('這好像不是圖片檔案喔，請重新上傳！');
+        }
+        }
+    });
+    </script>
+
+</body>
+</html>
