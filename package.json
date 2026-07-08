@@ -1,0 +1,29 @@
+{
+  "name": "2026-node.js-product-team-2",
+  "version": "1.0.0",
+  "description": "Node.js Side Project — 上傳一張圖片，壓縮或轉成 WebP，看到省下多少空間，並下載結果。",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wang-Yi-Zhang/2026-node.js-product-team-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Wang-Yi-Zhang/2026-node.js-product-team-2/issues"
+  },
+  "homepage": "https://github.com/Wang-Yi-Zhang/2026-node.js-product-team-2#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
