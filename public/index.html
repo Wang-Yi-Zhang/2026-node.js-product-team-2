@@ -52,11 +52,74 @@
             <div class="step-item">③ 下載</div>
         </footer>
 
+    </div>
+    
+    <!-- A2：（進行中）收到檔案後：設定壓縮品質與輸出格式   style="display: none;"-->  
 
-    <!-- A2：（未完成）收到檔案後：設定壓縮品質與輸出格式 -->
+    <div class="compressor-container" id="settings-section">
+
+        <header class="web-header">
+        <span class="logo-text">壓圖小工具</span>
+        </header>
+    
+        <!-- 圖片預覽區 -->
+        <div class="file-preview-card">
+        <img id="previewThumbnail" class="preview-thumbnail" src="" alt="圖片預覽">
+        <div class="file-info">
+            <p id="fileName" class="file-name">-</p>
+            <p id="fileMeta" class="file-meta">-</p>
+        </div>
+    </div>
+
+        <!-- 輸出格式：WebP / JPEG / PNG 三選一 -->
+        <div class="option-group">
+            <p class="option-label">輸出格式</p>
+            <div class="format-options">
+                <button type="button" class="format-btn active" data-format="webp">WebP</button>
+                <button type="button" class="format-btn" data-format="jpeg">JPEG</button>
+                <button type="button" class="format-btn" data-format="png">PNG</button>
+            </div>
+            </div>
+
+            <!-- 壓縮品質：拖拉滑桿 1~100 -->
+            <div class="option-group">
+            <div class="quality-header">
+                <p class="option-label">壓縮品質</p>
+                <span id="qualityValue" class="quality-value">80</span>
+            </div>
+            <input type="range" id="qualitySlider" class="quality-slider" min="1" max="100" value="80">
+        </div>
+
+        <!-- 開始壓縮按鈕 -->
+        <button type="button" id="compressButton" class="compress-button">開始壓縮</button>
+
+    <!-- A3：壓縮結果區：壓縮完成後才顯示 -->
+    <div class="result-card" id="resultCard" style="display: none;">
+    
+        <p class="option-label">壓縮結果</p>
+
+        <div class="result-stats">
+            <div class="result-stat">
+            <span class="result-stat-label">原始大小</span>
+            <span id="originalSizeText" class="result-stat-value">-</span>
+            </div>
+            <div class="result-stat">
+            <span class="result-stat-label">壓縮後大小</span>
+            <span id="compressedSizeText" class="result-stat-value">-</span>
+            </div>
+            <div class="result-stat">
+            <span class="result-stat-label">節省空間</span>
+            <span id="savedPercentText" class="result-stat-value result-stat-highlight">-</span>
+            </div>
+        </div>
+
+        <a id="downloadButton" class="compress-button download-button" href="#" download="compressed-image">下載圖片</a>
+    </div>
 
 
-    <!-- A3：（未完成）壓縮完成顯示區域 -->
+</div>
+
+    
  
     <!-- A4：（未完成）錯誤顯示，顯示各種錯誤訊息 -->
         

@@ -147,3 +147,126 @@ body {
   font-size: 13px;
   color: #8c8c8c;
 }
+
+
+/* ==========================================
+   A2：設定壓縮品質與輸出格式 
+   ========================================== */
+.option-group {
+  margin-bottom: 22px;
+}
+
+.option-label {
+  font-size: 14px;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.format-options {
+  display: flex;
+  gap: 10px;
+}
+
+.format-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: 1px solid #d8d2c4;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #555555;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.format-btn.active {
+  background-color: #d1754d;
+  border-color: #d1754d;
+  color: #ffffff;
+}
+
+.quality-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.quality-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.quality-slider {
+  width: 100%;
+  accent-color: #d1754d;
+}
+
+/* 圖片預覽卡片 */
+.file-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.preview-thumbnail {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  background-color: #faf9f6;
+}
+
+.file-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 4px;
+}
+
+.file-meta {
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+/* 壓縮結果卡片 */
+.result-card {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1px solid #e6e0d4;
+}
+
+.result-stats {
+  margin-bottom: 20px;
+}
+
+.result-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.result-stat-label {
+  color: #8c8c8c;
+}
+
+.result-stat-value {
+  color: #333333;
+  font-weight: 600;
+}
+
+.result-stat-highlight {
+  color: #d1754d;
+}
+
+/* 下載按鈕：外觀跟開始壓縮按鈕一樣，但用 <a> 標籤 */
+.download-button {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}

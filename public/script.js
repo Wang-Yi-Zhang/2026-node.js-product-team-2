@@ -1,23 +1,5 @@
 // A1：上傳檔案畫面，可拖曳或選擇檔案上傳
 
-
-  // 判斷是否成功抓取圖片的函式工具：不管是點擊還是拖曳，拿到檔案後都送來這裡處理
- 
-  function handleFile(file) {
-    if (!file) return;
-
-    // 檢查是不是圖片
-    if (file.type.startsWith('image/')) {
-      // 成功抓到圖片，跳出提示
-      alert(`成功抓到圖片：${file.name} \n可以準備進行壓縮囉！`);
-      console.log('目前暫存的檔案物件為：', file);
-    } else {
-      alert('這好像不是圖片檔案喔，請重新上傳！');
-      fileInput.value = ''; // 如果選錯檔案，把隱藏的輸入格清空
-    }
-  }
-
-
     // 1. 拿放大鏡找到我們在 HTML 寫好的大框框 (對應 id="dropZone")
     const dropZone = document.getElementById('dropZone');
     // 同時找到那個被隱藏的真實輸入格 (對應 id="fileInput")
@@ -60,13 +42,129 @@
     });
 
 
-// A2：（未完成）收到檔案後：設定壓縮品質與輸出格式
+// A2：設定壓縮品質與輸出格式：預覽 → 選格式/品質 → 壓縮 → 顯示結果 → 下載
+  // 先抓取 HTML 的元素（DOM 節點）
+  // 監聽「檔案輸入框」的 change 事件（使用者選好檔案時觸發）
 
-// 1. 先抓取 HTML 的元素（DOM 節點）
-// 2. 監聽「檔案輸入框」的 change 事件（使用者選好檔案時觸發）
-// 【核心步驟】把隱藏的設定區塊顯示出來！
-// （選做）如果你想讓畫面更乾淨，也可以順便把原本的上傳框隱藏起來
 
-// A3：（未完成）壓縮完成顯示區域
+// 1. 抓取需要用到的元素
+const uploadSection = document.getElementById('upload-section');
+const settingsSection = document.getElementById('settings-section');
+const previewThumbnail = document.getElementById('previewThumbnail');
+const fileNameText = document.getElementById('fileName');
+const fileMetaText = document.getElementById('fileMeta');
+const formatButtons = document.querySelectorAll('.format-btn');
+const qualitySlider = document.getElementById('qualitySlider');
+const qualityValueText = document.getElementById('qualityValue');
+const compressButton = document.getElementById('compressButton');
+const resultCard = document.getElementById('resultCard');
+const originalSizeText = document.getElementById('originalSizeText');
+const compressedSizeText = document.getElementById('compressedSizeText');
+const savedPercentText = document.getElementById('savedPercentText');
+const downloadButton = document.getElementById('downloadButton');
+
+// 2. 用變數記住使用者目前的選擇，壓縮的時候會用到
+let selectedFile = null;
+let selectedFormat = 'webp'; // 要跟 HTML 上預設 active 的按鈕一致
+let selectedQuality = 80;    // 要跟 slider 的 value 一致
+
+// 3. 顯示預覽卡片，並且切換到 A2 畫面
+function showPreview(file) {
+  selectedFile = file;
+
+  const objectUrl = URL.createObjectURL(file); 
+  // file 是使用者選的那個檔案，它只是存在瀏覽器記憶體裡，還沒有「網址」。
+  // 這行的作用是幫它臨時生一個網址（類似 blob:http://localhost/xxxx-xxxx），這樣 <img> 才有東西可以放。
+  previewThumbnail.src = objectUrl;
+  fileNameText.textContent = file.name;
+  fileMetaText.textContent = (file.size / 1024 / 1024).toFixed(1) + ' MB'; 
+  // file.size 是檔案大小，單位是「位元組（bytes）」，所以除以 1024 兩次換算成 MB。.toFixed(1) 是「取到小數點後一位」。
+
+  // 每次選新圖片，都要把上一次的壓縮結果藏起來，重新開始
+  resultCard.style.display = 'none';
+
+  // uploadSection.style.display = 'none'; 先取消，維持都在同一個畫面中
+  // settingsSection.style.display = 'block';
+}
+
+// 4. 修改 handleFile：抓到圖片後呼叫 showPreview
+function handleFile(file) {
+  if (!file) return;
+
+  if (file.type.startsWith('image/')) {
+    showPreview(file);
+  } else {
+    alert('這好像不是圖片檔案喔，請重新上傳！');
+    fileInput.value = '';
+  }
+}
+
+// 5. 輸出格式按鈕：切換 active 樣式 + 記錄選擇
+  // 「把 WebP、JPEG、PNG 這三顆按鈕都各自綁上一個點擊事件」
+  // 這樣不管使用者點哪一顆，都會觸發對應的邏輯（清掉全部的橘色，再把使用者點的那顆變橘色）。
+formatButtons.forEach(function (button) {
+  button.addEventListener('click', function () {
+    formatButtons.forEach(function (btn) {
+      btn.classList.remove('active');
+    });
+    button.classList.add('active');
+    selectedFormat = button.dataset.format;
+  });
+});
+
+// 6. 壓縮品質滑桿：更新數字 + 記錄選擇
+qualitySlider.addEventListener('input', function (e) {
+  selectedQuality = e.target.value;
+  qualityValueText.textContent = selectedQuality;
+});
+
+// 7. （待改：之後要改成 fetch 和後端拿資料）
+// 【核心】開始壓縮：用 canvas 把圖片畫出來，再輸出成指定格式/品質
+compressButton.addEventListener('click', function () {
+  if (!selectedFile) return;
+
+  const img = new Image();
+  img.onload = function () {
+    // 7-1. 建立一張跟原圖一樣大小的畫布
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // 7-2. 把圖片畫到畫布上
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    // 7-3. 把畫布輸出成圖片檔案（Blob）
+    //     注意：PNG 是無失真格式，不支援「品質」這個參數，所以只有 webp/jpeg 會吃 quality
+    const mimeType = 'image/' + selectedFormat;
+    const quality = selectedQuality / 100; // toBlob 吃的是 0~1 之間的小數
+
+    canvas.toBlob(function (blob) {
+      showResult(blob);
+    }, mimeType, quality);
+  };
+  img.src = URL.createObjectURL(selectedFile);
+});
+
+// A3：壓縮完成顯示區域
+// 顯示壓縮結果：原始大小 / 壓縮後大小 / 節省百分比 + 設定下載連結
+function showResult(blob) {
+  const originalSize = selectedFile.size;
+  const compressedSize = blob.size;
+  const savedPercent = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
+
+  originalSizeText.textContent = (originalSize / 1024 / 1024).toFixed(2) + ' MB';
+  compressedSizeText.textContent = (compressedSize / 1024 / 1024).toFixed(2) + ' MB';
+  savedPercentText.textContent = savedPercent + '%';
+
+  // 把壓縮後的檔案包成一個下載網址，塞進下載按鈕
+  const downloadUrl = URL.createObjectURL(blob);
+  downloadButton.href = downloadUrl;
+  downloadButton.download = 'compressed.' + selectedFormat;
+
+  resultCard.style.display = 'block';
+}
+
+
 
 // A4：（未完成）錯誤顯示，顯示各種錯誤訊息
