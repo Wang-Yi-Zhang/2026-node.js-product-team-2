@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Wang-Yi-Zhang/2026-node.js-product-team-2#readme",
   "dependencies": {
     "cors": "^2.8.6",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "sharp": "^0.35.3"
   }
 }

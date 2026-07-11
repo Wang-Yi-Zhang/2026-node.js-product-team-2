@@ -8,7 +8,7 @@ const path = require('path')
  * @param {Object} options
  * @param {string} options.format - 目標輸出格式，例如 'webp'、'jpeg'、'png'
  * @param {number} options.quality - 壓縮品質，範圍 1-100
- * @param {number} [options.maxWidth] - 選填，輸出圖片的最大寬度，超過才等比縮小，不會放大
+ * @param {number} [options.maxWidth] - 選填，輸出圖片的最大寬度，原圖小於maxWidth才等比縮小，不會放大
  * @returns {Promise<Object>} - 處理結果，包含 filename、originalSize（bytes）、outputSize（bytes）、savedPercent（%）、format
  */
 
@@ -26,7 +26,7 @@ async function processImage(inputPath, { format, quality, maxWidth }) {
         })
     }
 
-    // 壓縮檔案
+    // 壓縮檔案 / 重新編碼
     pipeline = pipeline.toFormat(format, {quality})
 
     // 將檔案放到downloads資料夾
@@ -36,10 +36,10 @@ async function processImage(inputPath, { format, quality, maxWidth }) {
     const savedPercent = Math.round((1 - (info.size / originalSize)) * 1000) / 10
 
     return {
-        filename:'output.webp',
+        filename:'待fileName',
         originalSize: originalSize,
         outputSize: info.size,
-        savedPercent: savedPercent,
+        savedPercent: savedPercent + ' 待formatBytes',
         format: info.format
     }
 
