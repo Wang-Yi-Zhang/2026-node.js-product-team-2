@@ -12,7 +12,7 @@ const path = require('path')
  * @returns {Promise<Object>} - 處理結果，包含 filename、originalSize（bytes）、outputSize（bytes）、savedPercent（%）、format
  */
 
-async function processImage(inputPath, { format, quality, maxWidth }) {
+async function processImage(inputPath, { format = 'webp', quality = 80, maxWidth }) {
 
     // 取得檔案
     let pipeline = sharp(inputPath)
