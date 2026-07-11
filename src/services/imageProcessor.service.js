@@ -13,12 +13,12 @@ const path = require('path')
  */
 
 async function processImage(inputPath, { format, quality, maxWidth }) {
-    
+
     // 取得檔案
     let pipeline = sharp(inputPath)
     // 計算原始檔案大小
     const originalSize = (await fs.stat(inputPath)).size
-    
+
     if(maxWidth){
         pipeline = pipeline.resize({
             width: maxWidth,
@@ -42,7 +42,7 @@ async function processImage(inputPath, { format, quality, maxWidth }) {
         savedPercent: savedPercent,
         format: info.format
     }
-    
+
 }
 
 module.exports = {processImage}
