@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圖片壓縮工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 全域外殼：用來控制整頁的置中與最大寬度 -->
+<div class="compressor-container" id= "upload-section" style="display: 'block';" >
+    
+    <!-- A1：上傳檔案畫面，可拖曳或選擇檔案上傳 -->
+        <!-- 1. 頁首標誌區 -->
+        <header class="web-header">
+            <span class="logo-text">壓圖小工具</span>
+        </header>
+
+        <!-- 2. 主副標題文字區 -->
+        <section class="hero-section">
+            <h1 class="main-title">把圖片變小，一步到位</h1>
+            <p class="sub-title">上傳 → 設定 → 下載，全部在這一頁完成</p>
+        </section>
+
+        <!-- 3. 核心拖曳上傳卡片 (對應畫面中的大虛線框) -->
+        <div class="upload-zone" id="dropZone">
+            <!-- 真正負責接收檔案的 input，我們用 CSS 把它隱藏起來 -->
+            <input type="file" id="fileInput" accept=".jpg, .jpeg, .png, .webp" hidden />
+            
+            <!-- 圓形虛線加號圖標 -->
+            <div class="plus-icon-container">
+            <span class="plus-sign">+</span>
+            </div>
+            
+            <!-- 提示文字與點擊連結 -->
+            <p class="upload-prompt">把圖片拖進來</p>
+            
+            <!-- 使用 for 屬性綁定 fileInput 的 id，點擊這個 label 就等於點擊 input -->
+            <label for="fileInput" class="upload-label">
+            或 <span class="clickable-text">點擊選擇檔案</span>
+            </label>
+            
+            <!-- 支援格式與大小限制 -->
+            <p class="file-limits">支援 JPG · PNG · WebP | 單檔最大 5MB</p>
+        </div>
+
+        <!-- 4. 底部步驟導覽區 -->
+        <footer class="steps-navigation">
+            <div class="step-item">① 選圖</div>
+            <div class="step-item">② 設定品質（預設壓縮 80%）</div>
+            <div class="step-item">③ 下載</div>
+        </footer>
+
+    </div>
+    
+    <!-- A2：（進行中）收到檔案後：設定壓縮品質與輸出格式   style="display: none;"-->  
+
+    <div class="compressor-container" id="settings-section">
+
+        <header class="web-header">
+        <span class="logo-text">壓圖小工具</span>
+        </header>
+    
+        <!-- 圖片預覽區 -->
+        <div class="file-preview-card">
+        <img id="previewThumbnail" class="preview-thumbnail" src="" alt="圖片預覽">
+        <div class="file-info">
+            <p id="fileName" class="file-name">-</p>
+            <p id="fileMeta" class="file-meta">-</p>
+        </div>
+    </div>
+
+        <!-- 輸出格式：WebP / JPEG / PNG 三選一 -->
+        <div class="option-group">
+            <p class="option-label">輸出格式</p>
+            <div class="format-options">
+                <button type="button" class="format-btn active" data-format="webp">WebP</button>
+                <button type="button" class="format-btn" data-format="jpeg">JPEG</button>
+                <button type="button" class="format-btn" data-format="png">PNG</button>
+            </div>
+            </div>
+
+            <!-- 壓縮品質：拖拉滑桿 1~100 -->
+            <div class="option-group">
+            <div class="quality-header">
+                <p class="option-label">壓縮品質</p>
+                <span id="qualityValue" class="quality-value">80</span>
+            </div>
+            <input type="range" id="qualitySlider" class="quality-slider" min="1" max="100" value="80">
+        </div>
+
+        <!-- 開始壓縮按鈕 -->
+        <button type="button" id="compressButton" class="compress-button">開始壓縮</button>
+
+    <!-- A3：壓縮結果區：壓縮完成後才顯示 -->
+    <div class="result-card" id="resultCard" style="display: none;">
+    
+        <p class="option-label">壓縮結果</p>
+
+        <div class="result-stats">
+            <div class="result-stat">
+            <span class="result-stat-label">原始大小</span>
+            <span id="originalSizeText" class="result-stat-value">-</span>
+            </div>
+            <div class="result-stat">
+            <span class="result-stat-label">壓縮後大小</span>
+            <span id="compressedSizeText" class="result-stat-value">-</span>
+            </div>
+            <div class="result-stat">
+            <span class="result-stat-label">節省空間</span>
+            <span id="savedPercentText" class="result-stat-value result-stat-highlight">-</span>
+            </div>
+        </div>
+
+        <a id="downloadButton" class="compress-button download-button" href="#" download="compressed-image">下載圖片</a>
+    </div>
+
+
+</div>
+
+    
+ 
+    <!-- A4：（未完成）錯誤顯示，顯示各種錯誤訊息 -->
+        
+
+
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
