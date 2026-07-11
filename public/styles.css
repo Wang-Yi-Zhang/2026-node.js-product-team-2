@@ -1,0 +1,272 @@
+/* ==========================================
+   1. 基礎設定與字體
+   ========================================== */
+* {
+  box-sizing: border-box; /* 讓寬高計算包含內邊距，排版才不會跑掉 */
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: #ffffff; /* 網頁底色設定為純白 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 讓整個工具在螢幕畫面上水平垂直置中 */
+}
+
+/* 全域外殼，控制整體工具的寬度 */
+.compressor-container {
+  width: 100%;
+  max-width: 550px; /* 限制最大寬度，像圖片那樣看起來精緻 */
+  padding: 20px;
+}
+
+/* ==========================================
+   2. 頁首與標題區排版
+   ========================================== */
+.web-header {
+  display: flex;
+  align-items: center;
+  /*gap: 10px;  logo 圓角框與文字之間的間距 */
+  margin-bottom: 30px;
+}
+
+
+.logo-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.hero-section {
+  margin-bottom: 25px;
+}
+
+.main-title {
+  font-size: 28px;
+  color: #333333;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.sub-title {
+  font-size: 14px;
+  color: #8c8c8c; /* 淺灰色副標題 */
+}
+
+/* ==========================================
+   3. 核心大虛線框 (上傳區塊) 
+   ========================================== */
+.upload-zone {
+  background-color: #faf9f6; /* 非常淡的溫暖米白色底色 */
+  border: 2px dashed #c5bba8; /* 2像素寬、虛線(dashed)、大地色系灰 */
+  border-radius: 20px; /* 大圓角 */
+  padding: 50px 20px; /* 上下留白多一點，左右留白 */
+  text-align: center;
+  
+  /* 關鍵：利用 Flexbox 讓大框框裡面的東西全部垂直置中 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  cursor: pointer; /* 鼠標移上去時變成手指形狀 */
+  transition: all 0.3s ease; /* 讓後面的動畫變色效果更平滑 */
+}
+
+/* ==========================================
+   4. 內層圓圈加號圖標 
+   ========================================== */
+.plus-icon-container {
+  width: 64px;
+  height: 64px; /* 寬高必須相等 */
+  border: 2px dashed #d1754d; /* 橘褐色、虛線 */
+  border-radius: 50%; /* 寬高相等的狀況下，radius 50% 就會變成正圓形 */
+  
+  /* 讓內部的加號「+」精準置中 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  margin-bottom: 15px; /* 與下方文字的間距 */
+}
+
+.plus-sign {
+  font-size: 28px;
+  color: #d1754d; /* 加號顏色與圓圈一致 */
+  font-weight: 300; /* 讓加號看起來細緻一點 */
+  line-height: 1;
+}
+
+/* ==========================================
+   5. 上傳區文字與點擊連結 
+   ========================================== */
+.upload-prompt {
+  font-size: 16px;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.upload-label {
+  font-size: 14px;
+  color: #8c8c8c;
+  margin-bottom: 15px;
+}
+
+.clickable-text {
+  color: #555555;
+  text-decoration: underline; /* 加上下底線，提示可以點擊 */
+  font-weight: 500;
+}
+
+.file-limits {
+  font-size: 12px;
+  color: #b0a89c; /* 提示小字，用更淡的顏色 */
+}
+
+.upload-zone.dragover {
+  background-color: #f3eee4; /* 背景色變成稍深的溫暖米色 */
+  border-color: #d1754d;     /* 虛線框框變成亮眼的橘褐色 (跟加號一樣顏色) */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05); /* 加上一層淡淡的陰影，讓卡片像浮起來一樣 */
+}
+
+/* ==========================================
+   6. 底部步驟導覽區 
+   ========================================== */
+.steps-navigation {
+  display: flex;
+  justify-content: space-between; /* 讓三個步驟平均分配左右空間 */
+  padding: 0 10px;
+  margin-top: 20px;
+}
+
+.step-item {
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+
+/* ==========================================
+   A2：設定壓縮品質與輸出格式 
+   ========================================== */
+.option-group {
+  margin-bottom: 22px;
+}
+
+.option-label {
+  font-size: 14px;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.format-options {
+  display: flex;
+  gap: 10px;
+}
+
+.format-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: 1px solid #d8d2c4;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #555555;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.format-btn.active {
+  background-color: #d1754d;
+  border-color: #d1754d;
+  color: #ffffff;
+}
+
+.quality-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.quality-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.quality-slider {
+  width: 100%;
+  accent-color: #d1754d;
+}
+
+/* 圖片預覽卡片 */
+.file-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.preview-thumbnail {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  background-color: #faf9f6;
+}
+
+.file-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 4px;
+}
+
+.file-meta {
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+/* 壓縮結果卡片 */
+.result-card {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1px solid #e6e0d4;
+}
+
+.result-stats {
+  margin-bottom: 20px;
+}
+
+.result-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.result-stat-label {
+  color: #8c8c8c;
+}
+
+.result-stat-value {
+  color: #333333;
+  font-weight: 600;
+}
+
+.result-stat-highlight {
+  color: #d1754d;
+}
+
+/* 下載按鈕：外觀跟開始壓縮按鈕一樣，但用 <a> 標籤 */
+.download-button {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
