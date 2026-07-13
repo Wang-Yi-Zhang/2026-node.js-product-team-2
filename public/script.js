@@ -83,8 +83,8 @@ function showPreview(file) {
   // 每次選新圖片，都要把上一次的壓縮結果藏起來，重新開始
   resultCard.style.display = 'none';
 
-  // uploadSection.style.display = 'none'; 先取消，維持都在同一個畫面中
-  // settingsSection.style.display = 'block';
+  // 拖曳區之後要兼作錯誤顯示區，維持一直顯示，不隱藏 uploadSection
+  settingsSection.style.display = 'block';
 }
 
 // 4. 修改 handleFile：抓到圖片後呼叫 showPreview
