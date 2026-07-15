@@ -127,6 +127,13 @@ body {
   color: #b0a89c; /* 提示小字，用更淡的顏色 */
 }
 
+.error-message {
+  background-color: #ffd1d1;
+  font-size: 23px;
+  color: #c0392b; /* 警示紅，跟提示文字做出區隔 */
+  margin-top: 10px;
+}
+
 .upload-zone.dragover {
   background-color: #f3eee4; /* 背景色變成稍深的溫暖米色 */
   border-color: #d1754d;     /* 虛線框框變成亮眼的橘褐色 (跟加號一樣顏色) */
