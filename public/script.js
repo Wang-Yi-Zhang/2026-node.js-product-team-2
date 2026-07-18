@@ -4,6 +4,8 @@
     const dropZone = document.getElementById('dropZone');
     // 同時找到那個被隱藏的真實輸入格 (對應 id="fileInput")
     const fileInput = document.getElementById('fileInput');
+    // 抓取新增的錯誤訊息顯示區 (對應 id="errorMessage")
+    const errorMessage = document.getElementById('errorMessage');
 
     // 2. 動作一：當使用者拿著檔案，「滑進」大框框的上方時
     dropZone.addEventListener('dragover', function(e) {
@@ -70,6 +72,7 @@ let selectedQuality = 80;    // 要跟 slider 的 value 一致
 
 // 3. 顯示預覽卡片，並且切換到 A2 畫面
 function showPreview(file) {
+  clearError(); // 換新的合法檔案時，把上一次殘留的錯誤訊息清掉
   selectedFile = file;
 
   const objectUrl = URL.createObjectURL(file); 
@@ -83,8 +86,19 @@ function showPreview(file) {
   // 每次選新圖片，都要把上一次的壓縮結果藏起來，重新開始
   resultCard.style.display = 'none';
 
-  // uploadSection.style.display = 'none'; 先取消，維持都在同一個畫面中
-  // settingsSection.style.display = 'block';
+  // 拖曳區之後要兼作錯誤顯示區，維持一直顯示，不隱藏 uploadSection
+  settingsSection.style.display = 'block';
+}
+
+// 錯誤訊息顯示／清除：統一入口，之後不管是前端檢查還是後端 API 回傳的錯誤都能重用
+function showError(message) {
+  errorMessage.textContent = message; // 直接覆蓋文字，天然只會顯示最新一則
+  errorMessage.hidden = false;
+}
+
+function clearError() {
+  errorMessage.hidden = true;
+  errorMessage.textContent = '';
 }
 
 // 4. 修改 handleFile：抓到圖片後呼叫 showPreview
@@ -94,7 +108,7 @@ function handleFile(file) {
   if (file.type.startsWith('image/')) {
     showPreview(file);
   } else {
-    alert('這好像不是圖片檔案喔，請重新上傳！');
+    showError('這好像不是圖片檔案喔，請重新上傳！');
     fileInput.value = '';
   }
 }
