@@ -2,7 +2,7 @@ const sharp = require('sharp')
 const fs = require('fs/promises')
 const path = require('path')
 const generateFileName = require('../utils/fileName.util')
-const calculateSavedPercent = require('../utils/formatBytes.util')
+const calculateSaved = require('../utils/formatBytes.util')
 
 /**
  * 用 sharp 壓縮／轉檔圖片，處理後存進 downloads/ 資料夾
@@ -42,7 +42,7 @@ async function processImage(inputPath, { format = 'webp', quality = 80, maxWidth
     const info = await pipeline.toFile(path.join(__dirname, '..', '..', 'downloads', fileName))
 
     // 計算壓縮
-    const savedPercent = calculateSavedPercent(originalSize, info.size)
+    const savedPercent = calculateSaved(originalSize, info.size)
 
     return {
         filename:fileName,
